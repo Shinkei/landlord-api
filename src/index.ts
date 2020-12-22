@@ -1,11 +1,13 @@
 import express, { Application, Request, Response } from 'express'
+import * as bodyParser from 'body-parser'
+import routes from './routes'
 
 const app: Application = express()
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('test')
-})
+app.use(bodyParser.json())
+
+app.use('/', routes)
 
 app.listen(8080, () => {
-  console.log('server started')
+  console.log('server started 🚀')
 })
