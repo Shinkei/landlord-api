@@ -3,20 +3,18 @@ import * as bodyParser from 'body-parser'
 import routes from './routes'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import { buildMongoURI } from './utils/utils'
 
 // add the envitoment variables
 dotenv.config()
 const app: Application = express()
 
 // connect to the mongoDB
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_SERVER}/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  }
-)
+mongoose.connect(buildMongoURI(), {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+})
 mongoose.Promise = global.Promise
 mongoose.connection.on('error', (err) => {
   console.error(`💽 😖 Error connecting to DB → ${err.message}`)
